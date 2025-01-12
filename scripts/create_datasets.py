@@ -1,6 +1,7 @@
 import json
 import os
 import cv2
+from sympy.codegen.ast import continue_
 
 classify = {
     "RR": '0',
@@ -13,9 +14,10 @@ classify = {
 with open('label.json', 'r') as f:
     data = json.load(f)
 
+
 # 创建输出文件夹
-os.makedirs('new_buff_data/images', exist_ok=True)
-os.makedirs('new_buff_data/labels', exist_ok=True)
+os.makedirs('datasets/buff_data/images', exist_ok=True)
+os.makedirs('datasets/buff_data/labels', exist_ok=True)
 
 # 遍历json数据
 for item in data:
@@ -29,8 +31,10 @@ for item in data:
     image_filename = '-'.join(image_filename.split('-')[1:])
     print(image_filename)
 
+    image_path='origin_images/'+image_filename
+
     # 读取图片
-    img = cv2.imread(os.path.join('buff_data/images', image_filename))
+    img = cv2.imread(os.path.join(image_path, image_filename))
     if img is not None:
         cv2.imwrite(os.path.join('new_buff_data/images', image_filename), img)
     else:
@@ -60,6 +64,13 @@ for item in data:
         y_center = y + height / 2
 
         # 获取关键点的归一化坐标
+        kpt_num = 0
+        for keypoint in item["keypoints"][0]:
+            kpt_num += 1
+        if kpt_num != 5:
+            print(f"警告: 图片 {image_filename} 不足5个关键点")
+            continue # 跳过没有5个关键点的条目
+
         x1 = item["keypoints"][0]["x"] / 100
         y1 = item["keypoints"][0]["y"] / 100
         x2 = item["keypoints"][1]["x"] / 100
