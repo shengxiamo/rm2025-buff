@@ -1,0 +1,13 @@
+*.mp4
+*.avi
+*.onnx
+*.pt
+*.o
+datasets/
+best_100b_openvino_model/
+.vscode/
+.idea/
+build/
+runs/
+/input/*.mp4
+*.pt
