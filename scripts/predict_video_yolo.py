@@ -4,7 +4,7 @@ import os
 
 # 模型路径和视频路径
 model_path = "D:\\PycharmProjects\\rm_buff\\runs\pose\\buff\weights\\best.pt"
-video_path = "D:/PycharmProjects/rm_buff/input/vedio.mp4"
+video_path = "/input/video.mp4"
 
 # 检查视频文件是否存在
 if not os.path.exists(video_path):
